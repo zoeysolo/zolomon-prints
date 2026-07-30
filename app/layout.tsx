@@ -20,9 +20,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <span className="header-tag">archival flower prints, made to order</span>
             <nav className="header-nav">
               <Link href="/">shop</Link>
-              <a href="https://zolomon.studio/wedding-flower-preservation.html" className="header-commissions">
-                bouquet commissions
-              </a>
+              <Link href="/commissions" className="header-commissions">
+                commissions
+              </Link>
+              <Link href="/pricing" className="header-commissions">
+                pricing
+              </Link>
             </nav>
           </div>
         </header>
@@ -31,9 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="container">
             <span>© {new Date().getFullYear()} Zolomon Prints</span>
             <span>
-              <a href="https://zolomon.studio/wedding-flower-preservation.html">
-                preserve your wedding bouquet →
-              </a>
+              <Link href="/commissions">preserve your wedding bouquet →</Link>
             </span>
             <span>printed &amp; shipped by Artelo</span>
           </div>
