@@ -30,6 +30,38 @@ export async function POST(req: Request) {
 
   const session = event.data.object as Stripe.Checkout.Session;
 
+  // ---------------------------------------------------------------------
+  // Commission deposits are fulfilled by hand, not by Artelo.
+  //
+  // This branch MUST come before the print lookup below. That lookup throws
+  // when metadata has no printId/sizeId, and the catch returns 500 — which
+  // makes Stripe retry. Without this branch every deposit would retry until
+  // Stripe gave up and marked the event permanently failed, while the
+  // customer's card was charged successfully.
+  //
+  // Sessions predating the `kind` field have no metadata.kind and are prints.
+  // ---------------------------------------------------------------------
+  if (session.metadata?.kind === "deposit") {
+    const tierId = session.metadata?.tierId;
+    const tierLabel = session.metadata?.tierLabel;
+    const amountUsd = (session.amount_total ?? 0) / 100;
+
+    console.log(
+      `Commission deposit received: ${session.id} — tier=${tierId} (${tierLabel}) ` +
+        `$${amountUsd} — ${session.customer_details?.email ?? "no email"} ` +
+        `${session.customer_details?.phone ?? ""}`.trim()
+    );
+
+    // Acknowledge so Stripe stops retrying. Follow-up is manual: the tier
+    // tells you which commission band the client booked.
+    return NextResponse.json({
+      received: true,
+      kind: "deposit",
+      tierId,
+      amountUsd
+    });
+  }
+
   try {
     const printId = session.metadata?.printId;
     const sizeId = session.metadata?.sizeId;
