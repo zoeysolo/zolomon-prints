@@ -1,10 +1,39 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { PRINTS, getDrop, getPrint, galleryImage, isPrintAvailable } from "@/lib/catalog";
+import { productPageGraph, productDescription, productTitle } from "@/lib/seo";
 import BuyBox from "./buy-box";
 
 export function generateStaticParams() {
   return PRINTS.map((p) => ({ id: p.id }));
+}
+
+export function generateMetadata({ params }: { params: { id: string } }): Metadata {
+  const print = getPrint(params.id);
+  if (!print) return {};
+  const title = productTitle(print);
+  const description = productDescription(print);
+  const url = `/prints/${print.id}`;
+  const image = galleryImage(print.driveId, 1200);
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: "website",
+      images: [{ url: image, alt: print.title }]
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image]
+    }
+  };
 }
 
 export default function PrintPage({ params }: { params: { id: string } }) {
@@ -15,6 +44,12 @@ export default function PrintPage({ params }: { params: { id: string } }) {
 
   return (
     <main className="container">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(productPageGraph(print))
+        }}
+      />
       <div className="detail">
         <div className="image">
           <Image
