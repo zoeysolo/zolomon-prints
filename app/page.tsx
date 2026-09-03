@@ -9,6 +9,7 @@ import {
   isDropOpen,
   printsInDrop
 } from "@/lib/catalog";
+import { imageAlt } from "@/lib/seo";
 
 const minPrice = Math.min(...SIZES.map((s) => s.priceUsd));
 
@@ -28,10 +29,9 @@ function PrintGrid({ prints, open }: { prints: Print[]; open: boolean }) {
           <div className="frame" style={open ? undefined : { opacity: 0.55 }}>
             <Image
               src={galleryImage(p.driveId, 800)}
-              alt={p.title}
+              alt={imageAlt(p)}
               fill
               sizes="(max-width: 768px) 50vw, 25vw"
-              unoptimized
             />
           </div>
           <div className="meta">

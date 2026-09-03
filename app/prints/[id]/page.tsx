@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { PRINTS, getDrop, getPrint, galleryImage, isPrintAvailable } from "@/lib/catalog";
-import { productPageGraph, productDescription, productTitle } from "@/lib/seo";
+import { productPageGraph, productDescription, productTitle, imageAlt } from "@/lib/seo";
 import BuyBox from "./buy-box";
 
 export function generateStaticParams() {
@@ -54,11 +54,10 @@ export default function PrintPage({ params }: { params: { id: string } }) {
         <div className="image">
           <Image
             src={galleryImage(print.driveId, 1400)}
-            alt={print.title}
+            alt={imageAlt(print)}
             fill
             sizes="(max-width: 768px) 100vw, 60vw"
             priority
-            unoptimized
           />
         </div>
         <div className="panel">

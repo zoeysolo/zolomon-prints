@@ -35,6 +35,13 @@ export function productTitle(print: Print): string {
   return `${print.title} — botanical scanography print | Zolomon Prints`;
 }
 
+// Generic-but-honest alt text: names the piece and the technique (scanography),
+// and differs per print via the title. Placeholder until per-print flower names
+// are added, at which point alt should name the actual flowers.
+export function imageAlt(print: Print): string {
+  return `${print.title} — original botanical scanography fine art print by Zoey Solomon`;
+}
+
 // schema.org Product with an ImageObject (creator = Zoey) and an AggregateOffer
 // that also carries the three individual size Offers.
 export function productJsonLd(print: Print) {

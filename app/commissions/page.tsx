@@ -85,7 +85,6 @@ export default function CommissionsPage() {
             alt="Botanical scanography print of a wedding bouquet, scanned at 1200 DPI"
             fill
             sizes="(max-width: 900px) 100vw, 45vw"
-            unoptimized
           />
         </figure>
       </section>
@@ -99,7 +98,6 @@ export default function CommissionsPage() {
               alt=""
               fill
               sizes="20vw"
-              unoptimized
             />
           </div>
         ))}
@@ -208,7 +206,6 @@ export default function CommissionsPage() {
                     alt={p.title}
                     fill
                     sizes="(max-width: 768px) 50vw, 25vw"
-                    unoptimized
                   />
                 </div>
                 <div className="meta">
