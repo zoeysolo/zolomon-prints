@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Zolomon Prints — Fine Art Flower Prints",
   description:
-    "Archival fine art prints of original flower scans by Zoey Solomon. Printed and shipped on demand."
+    "Archival fine art prints of original flower scans by Zoey Solomon. Printed and shipped on demand.",
+  alternates: { canonical: "/" }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
