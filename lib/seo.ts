@@ -7,6 +7,7 @@
 import { SITE_URL } from "./site";
 import {
   Print,
+  PRINTS,
   SIZES,
   galleryImage,
   getDrop,
@@ -114,5 +115,40 @@ export function productPageGraph(print: Print) {
   return {
     "@context": "https://schema.org",
     "@graph": [productJsonLd(print), breadcrumbJsonLd(print)]
+  };
+}
+
+// LocalBusiness / ProfessionalService for the homepage. Real fields only.
+// TODO(Zol): add `telephone` and `sameAs` (your social profile URLs) once
+// provided — deliberately omitted rather than guessed. No address is set
+// because this is a service-area studio, not a storefront.
+export function localBusinessJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: "Zolomon Prints",
+    description:
+      "Fine art botanical scanography studio. Archival prints made from real wedding bouquets and flowers, plus commissioned wedding bouquet preservation.",
+    url: SITE_URL,
+    email: "zoey@zolomonprints.com",
+    image: galleryImage(PRINTS[0].driveId, 1200),
+    founder: {
+      "@type": "Person",
+      name: "Zoey Solomon",
+      url: "https://zolomon.studio"
+    },
+    areaServed: [
+      { "@type": "City", name: "Washington, DC" },
+      { "@type": "State", name: "Maryland" },
+      { "@type": "State", name: "Virginia" },
+      { "@type": "State", name: "New York" }
+    ],
+    knowsAbout: [
+      "botanical scanography",
+      "wedding bouquet preservation",
+      "fine art printing"
+    ]
+    // telephone: "…",           // TODO: add real phone if you want one listed
+    // sameAs: ["https://…"],    // TODO: add your social profile URLs
   };
 }

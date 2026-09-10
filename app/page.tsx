@@ -9,7 +9,7 @@ import {
   isDropOpen,
   printsInDrop
 } from "@/lib/catalog";
-import { imageAlt } from "@/lib/seo";
+import { imageAlt, localBusinessJsonLd } from "@/lib/seo";
 
 const minPrice = Math.min(...SIZES.map((s) => s.priceUsd));
 
@@ -52,6 +52,12 @@ export default function Home() {
 
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(localBusinessJsonLd())
+        }}
+      />
       <section className="hero">
         <div className="container">
           <div className="drop-label">
