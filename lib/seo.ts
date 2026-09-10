@@ -119,9 +119,8 @@ export function productPageGraph(print: Print) {
 }
 
 // LocalBusiness / ProfessionalService for the homepage. Real fields only.
-// TODO(Zol): add `telephone` and `sameAs` (your social profile URLs) once
-// provided — deliberately omitted rather than guessed. No address is set
-// because this is a service-area studio, not a storefront.
+// No street address is set because this is a service-area studio, not a
+// storefront.
 export function localBusinessJsonLd() {
   return {
     "@context": "https://schema.org",
@@ -147,8 +146,8 @@ export function localBusinessJsonLd() {
       "botanical scanography",
       "wedding bouquet preservation",
       "fine art printing"
-    ]
-    // telephone: "…",           // TODO: add real phone if you want one listed
-    // sameAs: ["https://…"],    // TODO: add your social profile URLs
+    ],
+    telephone: "+1-240-506-4044",
+    sameAs: ["https://www.instagram.com/zolomonprints"]
   };
 }
