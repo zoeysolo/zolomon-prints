@@ -11,6 +11,16 @@ const nextConfig = {
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
       { protocol: "https", hostname: "drive.google.com" }
     ]
+  },
+  // Oct 2026: this shop is retired. Every page now sends visitors to the
+  // Squarespace store at zolomonprints.com, so the collector images are no
+  // longer sold here as unlimited prints. /api stays reachable so the Stripe
+  // webhook can still finish fulfillment for any order already in flight.
+  async redirects() {
+    return [
+      { source: "/", destination: "https://www.zolomonprints.com/", permanent: true },
+      { source: "/:path((?!api(?:/|$)).*)", destination: "https://www.zolomonprints.com/", permanent: true }
+    ];
   }
 };
 
