@@ -48,6 +48,7 @@ async function createSquarespaceOrder() {
       shippingAddress: address,
       inventoryBehavior: "SKIP",
       lineItems: lines.map(({ variant }) => ({ lineItemType: "PHYSICAL_PRODUCT", variantId: variant.id, quantity: 1, unitPricePaid: money(size.price) })),
+      shippingLines: [{ method: "Free shipping", amount: money(0) }],
       priceTaxInterpretation: "EXCLUSIVE",
       subtotal: money(total),
       shippingTotal: money(0),
