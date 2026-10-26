@@ -21,12 +21,12 @@ export const SIZES = [
 export const ARTELO_PRODUCT = {
   catalogProductId: "IndividualArtPrint",
   paperType: "MattePoster",
-  frameColor: null,
+  frameColor: "Unframed",
   includeFramingService: false,
   includeHangingPins: false,
   includeMats: false,
-  canvasDesignedFor: null,
-  canvasBorderStyle: null
+  canvasDesignedFor: "ExactCut",
+  canvasBorderStyle: "None"
 };
 
 export const SKU_PREFIX = "OE-";
@@ -80,7 +80,7 @@ async function call(base, token, method, path, body, extraHeaders = {}) {
     let data = null;
     try { data = text ? JSON.parse(text) : null; } catch { data = text; }
     if (!res.ok) {
-      const err = new Error(`${method} ${path} -> ${res.status}: ${text.slice(0, 600)}`);
+      const err = new Error(`${method} ${path} -> ${res.status}: ${text.slice(0, 4000)}`);
       err.status = res.status;
       err.data = data;
       throw err;

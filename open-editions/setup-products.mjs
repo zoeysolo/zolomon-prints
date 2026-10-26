@@ -13,7 +13,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   CATALOG, SIZES, ARTELO_PRODUCT, STORE_PAGE_TITLE, HERE,
-  sq, sqPaged, artelo, skuFor
+  sq, sqPaged, artelo, skuFor, printFileUrl
 } from "./lib.mjs";
 
 const args = new Set(process.argv.slice(2));
@@ -60,7 +60,10 @@ async function checkArteloSizes() {
       orderItemId: s.code,
       quantity: 1,
       unitPrice: s.price,
-      productInfo: { ...ARTELO_PRODUCT, size: s.artelo, orientation: "Vertical" }
+      productInfo: {
+        ...ARTELO_PRODUCT, size: s.artelo, orientation: "Vertical",
+        designs: [{ sourceImage: { url: printFileUrl(CATALOG[0]) }, fitOptions: { canvas: "Paper", style: "Outside" } }]
+      }
     }))
   });
   console.log("Artelo costs (production + shipping per size):");
