@@ -107,3 +107,6 @@ export async function sqPaged(path, key) {
   }
   return out;
 }
+
+// Squarespace returns product slugs as "p/<slug>"; compare on the bare slug.
+export const bareSlug = (s) => String(s || "").replace(/^.*\//, "");

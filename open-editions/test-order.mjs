@@ -9,7 +9,7 @@
 import { spawnSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
 import { join } from "node:path";
-import { sq, sqPaged, artelo, CATALOG, SIZES, skuFor, HERE } from "./lib.mjs";
+import { sq, sqPaged, artelo, CATALOG, SIZES, skuFor, HERE, bareSlug } from "./lib.mjs";
 
 const TEST_SLUG = process.env.TEST_SLUG || "all";
 
@@ -17,9 +17,8 @@ async function createSquarespaceOrder() {
   const items = TEST_SLUG === "all" ? CATALOG : CATALOG.filter((c) => c.slug === TEST_SLUG);
   const size = SIZES[0];
   const products = await sqPaged("/v2/commerce/products?type=PHYSICAL", "products");
-  console.log(`Found ${products.length} product(s): ` + products.slice(0, 40).map((p) => `${p.urlSlug}|${p.name?.slice(0, 20)}|${p.isVisible}`).join(", "));
   const lines = items.map((item) => {
-    const product = products.find((p) => p.urlSlug === item.slug);
+    const product = products.find((p) => bareSlug(p.urlSlug) === item.slug);
     if (!product) throw new Error(`Product ${item.slug} not found. Run create-products-hidden first.`);
     const variant = product.variants.find((v) => v.sku === skuFor(item, size));
     if (!variant) throw new Error(`Variant ${skuFor(item, size)} not found on ${item.slug}`);
