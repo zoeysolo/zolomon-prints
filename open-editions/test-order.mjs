@@ -17,6 +17,7 @@ async function createSquarespaceOrder() {
   const items = TEST_SLUG === "all" ? CATALOG : CATALOG.filter((c) => c.slug === TEST_SLUG);
   const size = SIZES[0];
   const products = await sqPaged("/v2/commerce/products?type=PHYSICAL", "products");
+  console.log(`Found ${products.length} product(s): ` + products.slice(0, 40).map((p) => `${p.urlSlug}|${p.name?.slice(0, 20)}|${p.isVisible}`).join(", "));
   const lines = items.map((item) => {
     const product = products.find((p) => p.urlSlug === item.slug);
     if (!product) throw new Error(`Product ${item.slug} not found. Run create-products-hidden first.`);
