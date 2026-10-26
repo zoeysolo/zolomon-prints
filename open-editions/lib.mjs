@@ -68,9 +68,11 @@ async function call(base, token, method, path, body, extraHeaders = {}) {
     headers["Content-Type"] = "application/json";
     payload = JSON.stringify(body);
   }
+  let last = "";
   for (let attempt = 0; attempt < 4; attempt++) {
     const res = await fetch(base + path, { method, headers, body: payload });
     if (res.status === 429 || res.status >= 500) {
+      last = `${res.status}: ${(await res.text()).slice(0, 300)}`;
       await new Promise((r) => setTimeout(r, 1500 * (attempt + 1)));
       continue;
     }
@@ -85,7 +87,7 @@ async function call(base, token, method, path, body, extraHeaders = {}) {
     }
     return data;
   }
-  throw new Error(`${method} ${path} kept failing (rate limit or server error)`);
+  throw new Error(`${method} ${path} kept failing (last response ${last})`);
 }
 
 export const sq = (method, path, body) =>
