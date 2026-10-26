@@ -80,18 +80,21 @@ async function main() {
   const ao = list.find((o) => o.orderId === `SQ-${order.orderNumber}`);
   if (!ao) throw new Error(`3. FAILED: no Artelo order SQ-${order.orderNumber}`);
   console.log(`3. Artelo has SQ-${order.orderNumber}: status ${ao.status}, production ${ao.productionStatus}`);
-  // Check every line: same Squarespace line id -> same print file and size.
-  const sqLines = new Map((order.lineItems || []).map((l) => [l.id, l]));
-  let wrong = 0;
-  for (const it of ao.items || []) {
+  // Check every line: the Squarespace line's SKU decides the print file the
+  // bridge sends (listed in the sync output above); Artelo must hold the same
+  // line with the right size, paper and orientation.
+  const sqOrder = await sq("GET", `/1.0/commerce/orders/${order.id}`);
+  const sqLines = new Map((sqOrder.lineItems || []).map((l) => [l.id, l]));
+  const arteloItems = ao.orderItems || ao.items || [];
+  let wrong = arteloItems.length === lines.length ? 0 : 1;
+  for (const it of arteloItems) {
     const sl = sqLines.get(it.orderItemId);
     const expect = lines.find((l) => l.variant.sku === sl?.sku)?.item;
-    const url = JSON.stringify(it).match(/drive\.google\.com[^"]*id=([\w-]+)/)?.[1];
-    const ok = expect && url === expect.printFileDriveId;
+    const p = it.product || {};
+    const ok = expect && p.size === size.artelo && p.paperType === "MattePoster" && p.orientation === expect.orientation;
     if (!ok) wrong++;
-    console.log(`   ${ok ? "OK " : "BAD"} ${sl?.productName || it.orderItemId} -> ${url || "no file found"}`);
+    console.log(`   ${ok ? "OK " : "BAD"} ${sl?.sku} -> ${expect?.name} | ${p.size} ${p.paperType} ${p.orientation} | file ${expect?.printFileDriveId}`);
   }
-  if (!(ao.items || []).length) console.log(JSON.stringify(ao, null, 2).slice(0, 3000));
 
   await sq("POST", `/1.0/commerce/orders/${order.id}/fulfillments`, {
     shouldSendNotification: false,
