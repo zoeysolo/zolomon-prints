@@ -25,8 +25,8 @@ export const ARTELO_PRODUCT = {
   includeFramingService: false,
   includeHangingPins: false,
   includeMats: false,
-  canvasDesignedFor: "ExactCut",
-  canvasBorderStyle: "None"
+  canvasDesignedFor: null,
+  canvasBorderStyle: null
 };
 
 export const SKU_PREFIX = "OE-";
