@@ -1,0 +1,50 @@
+name: Open Editions (Squarespace to Artelo)
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # every 15 minutes
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "What to run"
+        type: choice
+        default: sync-orders
+        options:
+          - sync-orders
+          - check-setup
+          - create-products-hidden
+          - test-order
+          - publish-products
+
+concurrency:
+  group: open-editions
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SQUARESPACE_API_KEY: ${{ secrets.SQUARESPACE_API_KEY }}
+      ARTELO_API_KEY: ${{ secrets.ARTELO_API_KEY }}
+      ARTELO_TEST_ORDERS: ${{ vars.ARTELO_TEST_ORDERS }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Sync orders
+        if: github.event_name == 'schedule' || inputs.task == 'sync-orders'
+        run: node open-editions/sync-orders.mjs
+      - name: Check setup
+        if: inputs.task == 'check-setup'
+        run: node open-editions/setup-products.mjs --check
+      - name: Create products (hidden)
+        if: inputs.task == 'create-products-hidden'
+        run: node open-editions/setup-products.mjs
+      - name: Test order (Squarespace to Artelo, test mode)
+        if: inputs.task == 'test-order'
+        run: node open-editions/test-order.mjs
+      - name: Publish products
+        if: inputs.task == 'publish-products'
+        run: node open-editions/setup-products.mjs --publish
