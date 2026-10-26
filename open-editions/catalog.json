@@ -1,0 +1,189 @@
+[
+  {
+    "slug": "lullaby-in-blue",
+    "name": "Lullaby in Blue",
+    "kind": "Blue Hydrangea Scanography Print",
+    "line": "A blue hydrangea resting in a cloud of baby's breath.",
+    "body": "Real hydrangea and baby's breath laid on a flatbed scanner, so the blooms stay crisp and the stems drift off into gray. Calm and cool, it suits a bedroom, a nursery, or a quiet reading corner.",
+    "sourceScan": "blue-01",
+    "orientation": "Vertical",
+    "printFileName": "lullaby-in-blue-print-file.jpg",
+    "printFileDriveId": null
+  },
+  {
+    "slug": "verse-in-periwinkle",
+    "name": "Verse in Periwinkle",
+    "kind": "Hydrangea Petal Scanography Print",
+    "line": "Loose hydrangea petals in periwinkle, cream, and soft violet.",
+    "body": "Hundreds of single hydrangea petals scanned edge to edge, like a page of handwriting seen up close. Soft enough for a bedroom, with enough pattern to hold a hallway or a stairwell.",
+    "sourceScan": "blue-02",
+    "orientation": "Vertical",
+    "printFileName": "verse-in-periwinkle-print-file.jpg",
+    "printFileDriveId": null
+  },
+  {
+    "slug": "fable-in-powder-blue",
+    "name": "Fable in Powder Blue",
+    "kind": "Hydrangea Scanography Print",
+    "line": "Powder blue hydrangea florets with a single bare branch.",
+    "body": "Hydrangea florets scanned close, with one woody stem running through them. A wide, gentle piece that sits well over a desk, a dresser, or a bed.",
+    "sourceScan": "blue-03",
+    "orientation": "Horizontal",
+    "printFileName": "fable-in-powder-blue-print-file.jpg",
+    "printFileDriveId": null
+  },
+  {
+    "slug": "aubade-in-hydrangea",
+    "name": "Aubade in Hydrangea",
+    "kind": "Blue Hydrangea Scanography Print",
+    "line": "A single hydrangea head on pale gray, the way it looks at first light.",
+    "body": "One whole hydrangea scanned on its stem, blue fading to cream at the edges. Simple and botanical, like a plate from an old field guide.",
+    "sourceScan": "blue-04",
+    "orientation": "Vertical",
+    "printFileName": "aubade-in-hydrangea-print-file.jpg",
+    "printFileDriveId": null
+  },
+  {
+    "slug": "pastoral-in-green",
+    "name": "Pastoral in Green",
+    "kind": "Rose Leaf Botanical Scanography Print",
+    "line": "Dark rose leaves on white, plain and graphic.",
+    "body": "Only the leaves and stems of a rose, scanned on white so every serrated edge shows. A quiet green for a kitchen, a study, or a wall of books.",
+    "sourceScan": "green-01",
+    "orientation": "Vertical",
+    "printFileName": "pastoral-in-green-print-file.jpg",
+    "printFileDriveId": null
+  },
+  {
+    "slug": "idyll-in-rose-and-gold",
+    "name": "Idyll in Rose and Gold",
+    "kind": "Rose and Chrysanthemum Scanography Print",
+    "line": "Pink-edged rose petals and a gold chrysanthemum, up close.",
+    "body": "A tumble of rose petals and one yellow mum, scanned so the near petals are sharp and the rest go soft. Warm and romantic without being sweet.",
+    "sourceScan": "mixed-01",
+    "orientation": "Vertical",
+    "printFileName": "idyll-in-rose-and-gold-print-file.jpg",
+    "printFileDriveId": null
+  },
+  {
+    "slug": "ballad-in-sunflower",
+    "name": "Ballad in Sunflower",
+    "kind": "Sunflower Bouquet Scanography Print",
+    "line": "Sunflowers, asters, and deep burgundy blooms pressed together.",
+    "body": "A late-summer bouquet laid flat on the glass: dark sunflower faces, mauve asters, and a wine-colored bloom tucked in. Rich and autumnal for a kitchen or dining room.",
+    "sourceScan": "mixed-02",
+    "orientation": "Vertical",
+    "printFileName": "ballad-in-sunflower-print-file.jpg",
+    "printFileDriveId": null
+  },
+  {
+    "slug": "carol-in-scarlet",
+    "name": "Carol in Scarlet",
+    "kind": "Red Chrysanthemum Scanography Print",
+    "line": "A scarlet chrysanthemum among white daisies and evergreen.",
+    "body": "One red spider mum surrounded by small white blooms and sprigs of green. It reads a little like a winter wreath, and makes an easy holiday gift.",
+    "sourceScan": "mixed-03",
+    "orientation": "Vertical",
+    "printFileName": "carol-in-scarlet-print-file.jpg",
+    "printFileDriveId": null
+  },
+  {
+    "slug": "epistle-in-coral",
+    "name": "Epistle in Coral",
+    "kind": "Spray Rose Scanography Print",
+    "line": "Coral spray roses, buds still closed, stems crossing in the dark.",
+    "body": "Small bicolor roses scanned against shadow so the buds glow red and gold. Moody and warm, it suits a library wall, an entryway, or a dark-painted room.",
+    "sourceScan": "orange-01",
+    "orientation": "Horizontal",
+    "printFileName": "epistle-in-coral-print-file.jpg",
+    "printFileDriveId": null
+  },
+  {
+    "slug": "madrigal-in-rose",
+    "name": "Madrigal in Rose",
+    "kind": "Pink Rose Scanography Print",
+    "line": "White roses edged in pink, loosely gathered on blush.",
+    "body": "Real picotee roses scanned on a pale pink ground, with petals lifting softly off the glass. A gentle piece for a bedroom, a vanity, or someone who keeps the flowers they're given.",
+    "sourceScan": "pink-03",
+    "orientation": "Vertical",
+    "printFileName": "madrigal-in-rose-print-file.jpg",
+    "printFileDriveId": null
+  },
+  {
+    "slug": "litany-in-lavender",
+    "name": "Litany in Lavender",
+    "kind": "Lavender Rose Scanography Print",
+    "line": "Lavender roses in full bloom, crowded edge to edge.",
+    "body": "A full cluster of lavender roses scanned so the centers stay deep and the outer petals pale. Dusky and a little Victorian, at home beside old books and candlelight.",
+    "sourceScan": "purple-02",
+    "orientation": "Vertical",
+    "printFileName": "litany-in-lavender-print-file.jpg",
+    "printFileDriveId": null
+  },
+  {
+    "slug": "vigil-in-garnet",
+    "name": "Vigil in Garnet",
+    "kind": "Red Rose Scanography Print",
+    "line": "Garnet roses and sea lavender scattered over shadow.",
+    "body": "Red roses and tiny pink sea lavender scanned against dark gray, so the reds look lit from within. The most dramatic of the Open Editions, made for a dark academia wall.",
+    "sourceScan": "red-03",
+    "orientation": "Vertical",
+    "printFileName": "vigil-in-garnet-print-file.jpg",
+    "printFileDriveId": null
+  },
+  {
+    "slug": "duet-in-wine-and-rose",
+    "name": "Duet in Wine and Rose",
+    "kind": "Red and Pink Rose Scanography Print",
+    "line": "Wine-dark roses pressed against soft pink ones.",
+    "body": "Deep red and pale pink roses scanned close, petals overlapping. Lush and romantic, a good fit for a bedroom or as an anniversary gift.",
+    "sourceScan": "red-05",
+    "orientation": "Vertical",
+    "printFileName": "duet-in-wine-and-rose-print-file.jpg",
+    "printFileDriveId": null
+  },
+  {
+    "slug": "canticle-in-lily",
+    "name": "Canticle in Lily",
+    "kind": "White Lily Scanography Print",
+    "line": "White lilies and one long green leaf on pale gray.",
+    "body": "Lily buds scanned on their stem, quiet and upright, like a pressed specimen. Clean and calm for a bathroom-adjacent hall, a bedroom, or a minimalist wall.",
+    "sourceScan": "white-01",
+    "orientation": "Vertical",
+    "printFileName": "canticle-in-lily-print-file.jpg",
+    "printFileDriveId": null
+  },
+  {
+    "slug": "prelude-in-gold",
+    "name": "Prelude in Gold",
+    "kind": "Sunflower Close-Up Scanography Print",
+    "line": "The edge of a sunflower, its petals blurring into gold.",
+    "body": "One sunflower scanned so close that only its dark center and a fan of petals fit on the glass. Bright and simple, it brings warmth to a kitchen or a gray wall.",
+    "sourceScan": "yellow-01",
+    "orientation": "Vertical",
+    "printFileName": "prelude-in-gold-print-file.jpg",
+    "printFileDriveId": null
+  },
+  {
+    "slug": "aria-in-honey",
+    "name": "Aria in Honey",
+    "kind": "Yellow Rose Scanography Print",
+    "line": "Honey-yellow roses floating on a blush ground.",
+    "body": "A dozen yellow roses scanned face up, so they seem to hover over the pink. Soft and sunny, it works over a bed, a sofa, or a breakfast table.",
+    "sourceScan": "yellow-03",
+    "orientation": "Horizontal",
+    "printFileName": "aria-in-honey-print-file.jpg",
+    "printFileDriveId": null
+  },
+  {
+    "slug": "refrain-in-honey",
+    "name": "Refrain in Honey",
+    "kind": "Yellow Rose Scanography Print",
+    "line": "Yellow roses scattered across pale pink, a quieter second verse.",
+    "body": "A looser arrangement of the same honey roses, with more space between the blooms. Pairs naturally with Aria in Honey as a set of two.",
+    "sourceScan": "yellow-04",
+    "orientation": "Horizontal",
+    "printFileName": "refrain-in-honey-print-file.jpg",
+    "printFileDriveId": null
+  }
+]
