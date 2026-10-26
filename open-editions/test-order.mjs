@@ -1,6 +1,6 @@
 // End-to-end test without a real payment:
-// 1. Creates a Squarespace order for one Open Edition (8x10 Vigil in Garnet),
-//    addressed to the studio, through the Orders API.
+// 1. Creates a Squarespace order with every Open Edition at 8x10 (or just
+//    TEST_SLUG), addressed to the studio, through the Orders API.
 // 2. Runs the normal sync with Artelo test mode forced on, so Artelo records
 //    the order but never prints it.
 // 3. Checks the order arrived at Artelo with the right size, paper and file.
@@ -11,16 +11,20 @@ import { randomUUID } from "node:crypto";
 import { join } from "node:path";
 import { sq, sqPaged, artelo, CATALOG, SIZES, skuFor, HERE } from "./lib.mjs";
 
-const TEST_SLUG = process.env.TEST_SLUG || "vigil-in-garnet";
+const TEST_SLUG = process.env.TEST_SLUG || "all";
 
 async function createSquarespaceOrder() {
-  const item = CATALOG.find((c) => c.slug === TEST_SLUG);
+  const items = TEST_SLUG === "all" ? CATALOG : CATALOG.filter((c) => c.slug === TEST_SLUG);
   const size = SIZES[0];
   const products = await sqPaged("/v2/commerce/products?type=PHYSICAL", "products");
-  const product = products.find((p) => p.urlSlug === item.slug);
-  if (!product) throw new Error(`Product ${item.slug} not found. Run create-products-hidden first.`);
-  const variant = product.variants.find((v) => v.sku === skuFor(item, size));
-  if (!variant) throw new Error(`Variant ${skuFor(item, size)} not found on ${item.slug}`);
+  const lines = items.map((item) => {
+    const product = products.find((p) => p.urlSlug === item.slug);
+    if (!product) throw new Error(`Product ${item.slug} not found. Run create-products-hidden first.`);
+    const variant = product.variants.find((v) => v.sku === skuFor(item, size));
+    if (!variant) throw new Error(`Variant ${skuFor(item, size)} not found on ${item.slug}`);
+    return { item, variant };
+  });
+  const total = size.price * lines.length;
 
   const address = {
     firstName: "ZolomonPrints", lastName: "Test Order",
@@ -43,12 +47,12 @@ async function createSquarespaceOrder() {
       billingAddress: address,
       shippingAddress: address,
       inventoryBehavior: "SKIP",
-      lineItems: [{ lineItemType: "PHYSICAL_PRODUCT", variantId: variant.id, quantity: 1, unitPricePaid: money(size.price) }],
+      lineItems: lines.map(({ variant }) => ({ lineItemType: "PHYSICAL_PRODUCT", variantId: variant.id, quantity: 1, unitPricePaid: money(size.price) })),
       priceTaxInterpretation: "EXCLUSIVE",
-      subtotal: money(size.price),
+      subtotal: money(total),
       shippingTotal: money(0),
       taxTotal: money(0),
-      grandTotal: money(size.price),
+      grandTotal: money(total),
       fulfillmentStatus: "PENDING",
       createdOn: new Date().toISOString()
     })
@@ -56,12 +60,12 @@ async function createSquarespaceOrder() {
   const text = await res.text();
   if (!res.ok) throw new Error(`Create test order failed (${res.status}): ${text}`);
   const order = JSON.parse(text);
-  console.log(`1. Created Squarespace test order #${order.orderNumber} (${item.name}, ${size.label}).`);
-  return { order, item, size };
+  console.log(`1. Created Squarespace test order #${order.orderNumber}: ${lines.length} print(s) at ${size.label}.`);
+  return { order, lines, size };
 }
 
 async function main() {
-  const { order, item, size } = await createSquarespaceOrder();
+  const { order, lines, size } = await createSquarespaceOrder();
 
   const run = spawnSync("node", [join(HERE, "sync-orders.mjs")], {
     env: { ...process.env, ARTELO_TEST_ORDERS: "true" },
@@ -75,7 +79,18 @@ async function main() {
   const ao = list.find((o) => o.orderId === `SQ-${order.orderNumber}`);
   if (!ao) throw new Error(`3. FAILED: no Artelo order SQ-${order.orderNumber}`);
   console.log(`3. Artelo has SQ-${order.orderNumber}: status ${ao.status}, production ${ao.productionStatus}`);
-  console.log(JSON.stringify(ao, null, 2).slice(0, 2500));
+  // Check every line: same Squarespace line id -> same print file and size.
+  const sqLines = new Map((order.lineItems || []).map((l) => [l.id, l]));
+  let wrong = 0;
+  for (const it of ao.items || []) {
+    const sl = sqLines.get(it.orderItemId);
+    const expect = lines.find((l) => l.variant.sku === sl?.sku)?.item;
+    const url = JSON.stringify(it).match(/drive\.google\.com[^"]*id=([\w-]+)/)?.[1];
+    const ok = expect && url === expect.printFileDriveId;
+    if (!ok) wrong++;
+    console.log(`   ${ok ? "OK " : "BAD"} ${sl?.productName || it.orderItemId} -> ${url || "no file found"}`);
+  }
+  if (!(ao.items || []).length) console.log(JSON.stringify(ao, null, 2).slice(0, 3000));
 
   await sq("POST", `/1.0/commerce/orders/${order.id}/fulfillments`, {
     shouldSendNotification: false,
@@ -83,7 +98,8 @@ async function main() {
   });
   console.log(`4. Closed test order #${order.orderNumber} in Squarespace (no email sent).`);
   if (run.status !== 0) throw new Error("Sync reported a problem, see above.");
-  console.log(`PASS: ${item.name} ${size.label} went from Squarespace to Artelo.`);
+  if (wrong) throw new Error(`${wrong} item(s) had the wrong print file.`);
+  console.log(`PASS: ${lines.length} print(s) went from Squarespace to Artelo with the right files.`);
 }
 
 main().catch((e) => { console.error(e.message); process.exit(1); });
