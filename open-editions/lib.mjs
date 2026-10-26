@@ -21,7 +21,7 @@ export const SIZES = [
 export const ARTELO_PRODUCT = {
   catalogProductId: "IndividualArtPrint",
   paperType: "MattePoster",
-  frameColor: null,
+  frameColor: "Unframed",
   includeFramingService: false,
   includeHangingPins: false,
   includeMats: false,
@@ -68,9 +68,11 @@ async function call(base, token, method, path, body, extraHeaders = {}) {
     headers["Content-Type"] = "application/json";
     payload = JSON.stringify(body);
   }
+  let last = "";
   for (let attempt = 0; attempt < 4; attempt++) {
     const res = await fetch(base + path, { method, headers, body: payload });
     if (res.status === 429 || res.status >= 500) {
+      last = `${res.status}: ${(await res.text()).slice(0, 300)}`;
       await new Promise((r) => setTimeout(r, 1500 * (attempt + 1)));
       continue;
     }
@@ -78,14 +80,14 @@ async function call(base, token, method, path, body, extraHeaders = {}) {
     let data = null;
     try { data = text ? JSON.parse(text) : null; } catch { data = text; }
     if (!res.ok) {
-      const err = new Error(`${method} ${path} -> ${res.status}: ${text.slice(0, 600)}`);
+      const err = new Error(`${method} ${path} -> ${res.status}: ${text.slice(0, 4000)}`);
       err.status = res.status;
       err.data = data;
       throw err;
     }
     return data;
   }
-  throw new Error(`${method} ${path} kept failing (rate limit or server error)`);
+  throw new Error(`${method} ${path} kept failing (last response ${last})`);
 }
 
 export const sq = (method, path, body) =>
@@ -105,3 +107,6 @@ export async function sqPaged(path, key) {
   }
   return out;
 }
+
+// Squarespace returns product slugs as "p/<slug>"; compare on the bare slug.
+export const bareSlug = (s) => String(s || "").replace(/^.*\//, "");

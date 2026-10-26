@@ -73,6 +73,9 @@ async function sendToArtelo(order, oeLines, arteloOrderId) {
     total: items.reduce((t, i) => t + i.unitPrice * i.quantity, 0)
   });
   note(`Order ${order.orderNumber}: sent ${items.length} item(s) to Artelo${isTest ? " as a TEST order" : ""}.`);
+  for (const { line, item, size } of oeLines) {
+    console.log(`   ${line.id}  ${line.sku}  ${item.name} ${size.label}, ${item.orientation} -> Drive file ${item.printFileDriveId}`);
+  }
   return created;
 }
 

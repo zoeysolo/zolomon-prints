@@ -13,7 +13,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   CATALOG, SIZES, ARTELO_PRODUCT, STORE_PAGE_TITLE, HERE,
-  sq, sqPaged, artelo, skuFor
+  sq, sqPaged, artelo, skuFor, printFileUrl, bareSlug
 } from "./lib.mjs";
 
 const args = new Set(process.argv.slice(2));
@@ -60,7 +60,10 @@ async function checkArteloSizes() {
       orderItemId: s.code,
       quantity: 1,
       unitPrice: s.price,
-      productInfo: { ...ARTELO_PRODUCT, size: s.artelo, orientation: "Vertical" }
+      productInfo: {
+        ...ARTELO_PRODUCT, size: s.artelo, orientation: "Vertical",
+        designs: [{ sourceImage: { url: printFileUrl(CATALOG[0]) }, fitOptions: { canvas: "Paper", style: "Outside" } }]
+      }
     }))
   });
   console.log("Artelo costs (production + shipping per size):");
@@ -99,7 +102,7 @@ async function main() {
 
   const all = await sqPaged("/v2/commerce/products?type=PHYSICAL", "products");
   const onPage = all.filter((p) => p.storePageId === page.id);
-  const bySlug = new Map(onPage.map((p) => [p.urlSlug, p]));
+  const bySlug = new Map(onPage.map((p) => [bareSlug(p.urlSlug), p]));
 
   for (const item of CATALOG) {
     let product = bySlug.get(item.slug);
