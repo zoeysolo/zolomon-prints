@@ -128,7 +128,7 @@ async function main() {
       await uploadImage(product.id, `${item.slug}-scanography-print.jpg`,
         `${item.name}, scanography print of ${item.line.replace(/\.$/, "").toLowerCase()}`);
       await uploadImage(product.id, `${item.slug}-framed-on-wall.jpg`,
-        `${item.name} print framed on a warm plaster wall under a brass picture light`);
+        `${item.name} print in a walnut frame with a cream mat, on a paneled wall above a walnut console`);
       console.log(`  added photos`);
     } else if (PUBLISH && !product.isVisible) {
       await sq("POST", `/v2/commerce/products/${product.id}`, { isVisible: true });
