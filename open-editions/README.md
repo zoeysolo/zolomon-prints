@@ -28,10 +28,11 @@ Sizes and prices live in `lib.mjs`. Names and copy live in `catalog.json`. Produ
    - `SQUARESPACE_API_KEY`: Squarespace → Settings → Developer Tools → Developer API Keys, with Products and Orders set to Read and Write.
    - `ARTELO_API_KEY`: Artelo → Integrations → API.
 2. **Store page.** In Squarespace, add a Store page titled exactly **Open Editions**.
-3. **Print files.** Put the 17 print files in Google Drive (link sharing on) and fill `printFileDriveId` for each print in `catalog.json`.
+3. **Print files.** Each print in `catalog.json` points at its original full-resolution scan in Google Drive (`printFileDriveId`, link sharing on). Artelo crops it to 4:5 from the center.
 4. **Test mode.** Under Settings → Secrets and variables → Actions → Variables, add `ARTELO_TEST_ORDERS` = `true`.
 5. **Run it.** Go to Actions → Open Editions → Run workflow and run these in order:
    - `check-setup`: confirms both keys work, the store page exists, and Artelo accepts the sizes.
    - `create-products-hidden`: creates all 17 products, hidden, with photos.
+   - `test-order` places a Squarespace order through the API, checks it reaches Artelo as a test order, then closes it quietly.
    - Look them over in Squarespace, then run `publish-products`.
 6. **Go live.** Place a test order. If it appears in Artelo as a test order, set `ARTELO_TEST_ORDERS` to `false`.
